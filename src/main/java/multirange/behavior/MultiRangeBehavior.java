@@ -186,6 +186,14 @@ public class MultiRangeBehavior extends BehaviorBase<MultiRange> {
             return false;
         }
     }
+    
+    public void setIsLowChanging(boolean b) {
+        getControl().setLowValueChanging(b);
+    }
+
+    public void setIsHighChanging(boolean b) {
+        getControl().setHighValueChanging(b);
+    }
 
     /**
      * @param position The mouse position on track with 0.0 being beginning of
