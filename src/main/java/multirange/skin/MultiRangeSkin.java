@@ -105,6 +105,14 @@ public class MultiRangeSkin extends BehaviorSkinBase<MultiRange, MultiRangeBehav
         initThumbs(initialThumbs);
         setShowTickMarks(getSkinnable().isShowTickMarks(), getSkinnable().isShowTickLabels());
     }
+    
+    private void setLowChanging(boolean b) {
+        getBehavior().setIsLowChanging(b);
+    }
+
+    private void setHighChanging(boolean b) {
+        getBehavior().setIsHighChanging(b);
+    }
 
     /**
      * Init the given thumbs and add them to the view.
@@ -120,6 +128,7 @@ public class MultiRangeSkin extends BehaviorSkinBase<MultiRange, MultiRangeBehav
             currentId.setValue(t.id);
             preDragThumbPoint = t.low.localToParent(me.getX(), me.getY());
             preDragPos = (getSkinnable().getLowValue() - getSkinnable().getMin()) / (getMaxMinusMinNoZero());
+            setLowChanging(true);
         });
 
 
@@ -128,8 +137,13 @@ public class MultiRangeSkin extends BehaviorSkinBase<MultiRange, MultiRangeBehav
             double dragPos = (isHorizontal()) ? cur.getX() - preDragThumbPoint.getX() : -(cur.getY() - preDragThumbPoint.getY());
             getBehavior().lowThumbDragged(preDragPos + dragPos / trackLength);
         });
+        
+        t.low.setOnMouseReleased(me -> {
+            setLowChanging(false);
+        });
 
         t.high.setOnMousePressed(me -> {
+            setHighChanging(true);
             currentId.setValue(t.id);
             preDragThumbPoint = t.high.localToParent(me.getX(), me.getY());
             preDragPos = (getSkinnable().getHighValue() - getSkinnable().getMin()) / (getMaxMinusMinNoZero());
@@ -143,6 +157,10 @@ public class MultiRangeSkin extends BehaviorSkinBase<MultiRange, MultiRangeBehav
             double dragPos = getSkinnable().getOrientation() != Orientation.HORIZONTAL ? -(cur.getY() - preDragThumbPoint.getY()) : cur.getX() - preDragThumbPoint.getX();
             getBehavior().highThumbDragged(preDragPos + dragPos / trackLength);
 
+        });
+        
+        t.high.setOnMouseReleased(me -> {
+            setHighChanging(false);
         });
 
         /*
