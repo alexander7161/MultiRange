@@ -1236,5 +1236,46 @@ public class MultiRange extends Control {
 
     private static final PseudoClass VERTICAL_PSEUDOCLASS_STATE = PseudoClass.getPseudoClass("vertical");
     private static final PseudoClass HORIZONTAL_PSEUDOCLASS_STATE = PseudoClass.getPseudoClass("horizontal");
+    
+    /**
+     * When true, indicates the current value of this Slider is changing.
+     * It provides notification that the value is changing. Once the value is
+     * computed, it is reset back to false.
+     */
+    private BooleanProperty lowValueChanging;
+
+    public final void setLowValueChanging(boolean value) {
+        lowValueChangingProperty().set(value);
+    }
+
+    public final boolean isLowValueChanging() {
+        return lowValueChanging != null && lowValueChanging.get();
+    }
+
+
+    public final BooleanProperty lowValueChangingProperty() {
+        if (lowValueChanging == null) {
+            lowValueChanging = new SimpleBooleanProperty(this, "lowValueChanging", false);
+        }
+        return lowValueChanging;
+    }
+
+    private BooleanProperty highValueChanging;
+
+    public final void setHighValueChanging(boolean value) {
+        highValueChangingProperty().set(value);
+    }
+
+    public final boolean isHighValueChanging() {
+        return highValueChanging != null && highValueChanging.get();
+    }
+
+
+    public final BooleanProperty highValueChangingProperty() {
+        if (highValueChanging == null) {
+            highValueChanging = new SimpleBooleanProperty(this, "highValueChanging", false);
+        }
+        return highValueChanging;
+    }
 
 }
